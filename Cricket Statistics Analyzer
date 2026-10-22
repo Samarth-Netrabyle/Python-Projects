@@ -1,0 +1,49 @@
+
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Sample cricket data
+data = {
+    "Player": ["Virat Kohli", "Rohit Sharma",
+               "Shubman Gill", "KL Rahul"],
+    "Runs": [85, 62, 104, 45],
+    "Balls": [70, 48, 95, 40],
+    "Fours": [8, 7, 10, 4],
+    "Sixes": [2, 3, 2, 1]
+}
+
+df = pd.DataFrame(data)
+
+# Calculate strike rate
+df["Strike Rate"] = (
+    df["Runs"] / df["Balls"] * 100
+).round(2)
+
+# Display player statistics
+print("CRICKET PLAYER ANALYSIS")
+print(df.to_string(index=False))
+
+# Find the highest scorer
+top_scorer = df.loc[df["Runs"].idxmax()]
+print("\nHighest scorer:", top_scorer["Player"])
+print("Runs scored:", top_scorer["Runs"])
+
+# Create a runs comparison chart
+plt.figure(figsize=(9, 5))
+plt.bar(df["Player"], df["Runs"])
+plt.title("Cricket Player Runs Comparison")
+plt.xlabel("Player")
+plt.ylabel("Runs")
+plt.xticks(rotation=20)
+plt.tight_layout()
+plt.show()
+
+# Create a strike rate chart
+plt.figure(figsize=(9, 5))
+plt.bar(df["Player"], df["Strike Rate"])
+plt.title("Player Strike Rate Comparison")
+plt.xlabel("Player")
+plt.ylabel("Strike Rate")
+plt.xticks(rotation=20)
+plt.tight_layout()
+plt.show()
