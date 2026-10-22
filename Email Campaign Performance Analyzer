@@ -1,0 +1,70 @@
+
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Sample email campaign data
+data = {
+    "Campaign": [
+        "Welcome Email",
+        "Product Promotion",
+        "Renewal Reminder",
+        "Abandoned Cart"
+    ],
+    "Sent": [10000, 15000, 8000, 5000],
+    "Delivered": [9800, 14500, 7900, 4900],
+    "Unique Opens": [4900, 5800, 4740, 2940],
+    "Unique Clicks": [980, 725, 948, 735],
+    "Conversions": [196, 145, 284, 220]
+}
+
+df = pd.DataFrame(data)
+
+# Calculate campaign KPIs
+df["Delivery Rate (%)"] = (
+    df["Delivered"] / df["Sent"] * 100
+).round(2)
+
+df["Open Rate (%)"] = (
+    df["Unique Opens"] / df["Delivered"] * 100
+).round(2)
+
+df["CTR (%)"] = (
+    df["Unique Clicks"] / df["Delivered"] * 100
+).round(2)
+
+df["CTOR (%)"] = (
+    df["Unique Clicks"] / df["Unique Opens"] * 100
+).round(2)
+
+df["Conversion Rate (%)"] = (
+    df["Conversions"] / df["Unique Clicks"] * 100
+).round(2)
+
+# Display report
+print("EMAIL CAMPAIGN PERFORMANCE REPORT")
+print(df.to_string(index=False))
+
+# Identify campaign with the highest CTR
+best_campaign = df.loc[df["CTR (%)"].idxmax()]
+print("\nHighest CTR campaign:", best_campaign["Campaign"])
+print("CTR:", best_campaign["CTR (%)"], "%")
+
+# Visualize open rates
+plt.figure(figsize=(9, 5))
+plt.bar(df["Campaign"], df["Open Rate (%)"])
+plt.title("Email Campaign Open Rates")
+plt.xlabel("Campaign")
+plt.ylabel("Open Rate (%)")
+plt.xticks(rotation=20)
+plt.tight_layout()
+plt.show()
+
+# Visualize click-through rates
+plt.figure(figsize=(9, 5))
+plt.bar(df["Campaign"], df["CTR (%)"])
+plt.title("Email Campaign Click-Through Rates")
+plt.xlabel("Campaign")
+plt.ylabel("CTR (%)")
+plt.xticks(rotation=20)
+plt.tight_layout()
+plt.show()
